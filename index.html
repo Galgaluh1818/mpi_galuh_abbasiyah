@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Daulah Abbasiyah - Media Pembelajaran PAI</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Poppins & Amiri -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        abbasiyah: {
+                            dark: '#0f172a',
+                            deep: '#1e1b4b',
+                            purple: '#3b0764',
+                            gold: '#f59e0b',
+                            goldLight: '#fbbf24',
+                            accent: '#6366f1',
+                            card: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                        amiri: ['Amiri', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #3b0764 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+        .arabic-title {
+            font-family: 'Amiri', serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f59e0b;
+            border-radius: 4px;
+        }
+        .glow-gold {
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.3);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.4);
+        }
+    </style>
+</head>
+<body class="flex flex-col h-full antialiased selection:bg-amber-500 selection:text-white">
+
+    <!-- HEADER & NAVBAR -->
+    <header class="sticky top-0 z-50 bg-abbasiyah-dark/90 backdrop-blur-md border-b border-amber-500/20 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo / Title -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-abbasiyah-dark shadow-lg shadow-amber-500/20">
+                        <i class="fa-solid fa-mosque text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg sm:text-xl font-bold tracking-wide text-amber-400 arabic-title">دولة العباسية</h1>
+                        <p class="text-xs text-slate-300 font-medium">Petualangan Daulah Abbasiyah</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center space-x-2 bg-amber-500 text-abbasiyah-dark shadow-md">
+                        <i class="fa-solid fa-house"></i><span>Home</span>
+                    </button>
+                    <button onclick="switchTab('tujuan')" id="nav-tujuan" class="nav-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-300 hover:text-amber-400 hover:bg-slate-800/60">
+                        <i class="fa-solid fa-bullseye"></i><span>Tujuan</span>
+                    </button>
+                    <button onclick="switchTab('materi')" id="nav-materi" class="nav-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-300 hover:text-amber-400 hover:bg-slate-800/60">
+                        <i class="fa-solid fa-book-open"></i><span>Materi</span>
+                    </button>
+                    <button onclick="switchTab('kuis')" id="nav-kuis" class="nav-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-300 hover:text-amber-400 hover:bg-slate-800/60">
+                        <i class="fa-solid fa-gamepad"></i><span>Kuis</span>
+                    </button>
+                    <button onclick="switchTab('dragdrop')" id="nav-dragdrop" class="nav-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-300 hover:text-amber-400 hover:bg-slate-800/60">
+                        <i class="fa-solid fa-puzzle-piece"></i><span>Drag & Drop</span>
+                    </button>
+                    <button onclick="switchTab('tentang')" id="nav-tentang" class="nav-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center space-x-2 text-slate-300 hover:text-amber-400 hover:bg-slate-800/60">
+                        <i class="fa-solid fa-user-gear"></i><span>Tentang</span>
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex md:hidden">
+                    <button onclick="toggleMobileMenu()" class="p-2 rounded-xl text-amber-400 hover:bg-slate-800 focus:outline-none">
+                        <i id="mobile-menu-icon" class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-abbasiyah-deep/95 border-b border-amber-500/20 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('home'); toggleMobileMenu();" class="mobile-nav-btn w-full text-left px-4 py-3 rounded-xl text-base font-semibold flex items-center space-x-3 bg-amber-500 text-abbasiyah-dark">
+                <i class="fa-solid fa-house w-6"></i><span>Home</span>
+            </button>
+            <button onclick="switchTab('tujuan'); toggleMobileMenu();" class="mobile-nav-btn w-full text-left px-4 py-3 rounded-xl text-base font-semibold flex items-center space-x-3 text-slate-300 hover:bg-slate-800">
+                <i class="fa-solid fa-bullseye w-6"></i><span>Tujuan Pembelajaran</span>
+            </button>
+            <button onclick="switchTab('materi'); toggleMobileMenu();" class="mobile-nav-btn w-full text-left px-4 py-3 rounded-xl text-base font-semibold flex items-center space-x-3 text-slate-300 hover:bg-slate-800">
+                <i class="fa-solid fa-book-open w-6"></i><span>Materi</span>
+            </button>
+            <button onclick="switchTab('kuis'); toggleMobileMenu();" class="mobile-nav-btn w-full text-left px-4 py-3 rounded-xl text-base font-semibold flex items-center space-x-3 text-slate-300 hover:bg-slate-800">
+                <i class="fa-solid fa-gamepad w-6"></i><span>Kuis Interaktif</span>
+            </button>
+            <button onclick="switchTab('dragdrop'); toggleMobileMenu();" class="mobile-nav-btn w-full text-left px-4 py-3 rounded-xl text-base font-semibold flex items-center space-x-3 text-slate-300 hover:bg-slate-800">
+                <i class="fa-solid fa-puzzle-piece w-6"></i><span>Drag and Drop</span>
+            </button>
+            <button onclick="switchTab('tentang'); toggleMobileMenu();" class="mobile-nav-btn w-full text-left px-4 py-3 rounded-xl text-base font-semibold flex items-center space-x-3 text-slate-300 hover:bg-slate-800">
+                <i class="fa-solid fa-user-gear w-6"></i><span>Tentang</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ================= TAB 1: HOME ================= -->
+        <section id="tab-home" class="tab-content space-y-8 animate-fadeIn">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-600/30 via-purple-900/40 to-blue-900/40 border border-amber-500/30 p-8 sm:p-12 glow-gold">
+                <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none text-9xl">
+                    <i class="fa-solid fa-kaaba"></i>
+                </div>
+                <div class="relative z-10 max-w-3xl space-y-6">
+                    <span class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                        <i class="fa-solid fa-star text-amber-400"></i><span>Mata Pelajaran PAI Kelas 8 SMP (Fase D)</span>
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                        Jelajahi Kejayaan <span class="text-amber-400">Daulah Abbasiyah</span>
+                    </h2>
+                    <p class="text-base sm:text-lg text-slate-300 leading-relaxed">
+                        Selamat datang di media pembelajaran interaktif futuristik! Mari kita bertualang menembus lorong waktu untuk mengenal sejarah, pusat kebudayaan Baitul Hikmah, dan tokoh ilmuwan muslim hebat dunia.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <button onclick="switchTab('materi')" class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 text-abbasiyah-dark font-bold shadow-lg shadow-amber-500/30 hover:scale-105 transition-all flex items-center space-x-2">
+                            <i class="fa-solid fa-rocket"></i><span>Mulai Belajar</span>
+                        </button>
+                        <button onclick="switchTab('kuis')" class="px-6 py-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-700 text-amber-400 border border-amber-500/40 font-bold shadow-md hover:scale-105 transition-all flex items-center space-x-2">
+                            <i class="fa-solid fa-trophy"></i><span>Uji Kuis</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Features Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div onclick="switchTab('tujuan')" class="card-hover cursor-pointer bg-slate-800/60 border border-slate-700/80 rounded-2xl p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Tujuan Pembelajaran</h3>
+                    <p class="text-sm text-slate-400">Pahami target pencapaian materi pembelajaran Daulah Abbasiyah.</p>
+                </div>
+                <div onclick="switchTab('materi')" class="card-hover cursor-pointer bg-slate-800/60 border border-slate-700/80 rounded-2xl p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Materi Interaktif</h3>
+                    <p class="text-sm text-slate-400">Pelajari sejarah, khalifah, Baitul Hikmah, dan ilmuwan muslim.</p>
+                </div>
+                <div onclick="switchTab('kuis')" class="card-hover cursor-pointer bg-slate-800/60 border border-slate-700/80 rounded-2xl p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Kuis Pilihan Ganda</h3>
+                    <p class="text-sm text-slate-400">Uji pemahamanmu dengan kuis interaktif berhadiah skor.</p>
+                </div>
+                <div onclick="switchTab('dragdrop')" class="card-hover cursor-pointer bg-slate-800/60 border border-slate-700/80 rounded-2xl p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-puzzle-piece"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Drag and Drop</h3>
+                    <p class="text-sm text-slate-400">Cocokkan ilmuwan muslim dengan bidang keahliannya.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: TUJUAN PEMBELAJARAN ================= -->
+        <section id="tab-tujuan" class="tab-content hidden space-y-6">
+            <div class="bg-slate-800/60 border border-slate-700/80 rounded-3xl p-6 sm:p-8 space-y-6">
+                <div class="flex items-center space-x-4 border-b border-slate-700 pb-4">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Tujuan Pembelajaran</h2>
+                        <p class="text-sm text-slate-400">Fase D - Kelas 8 SMP Mata Pelajaran Pendidikan Agama Islam (PAI)</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-900/60 border border-slate-700/60 p-5 rounded-2xl flex items-start space-x-4">
+                        <div class="w-8 h-8 rounded-full bg-amber-500 text-abbasiyah-dark font-bold flex items-center justify-center flex-shrink-0 mt-1">1</div>
+                        <p class="text-sm sm:text-base text-slate-200">Menjelaskan latar belakang berdirinya Daulah Abbasiyah dan menyebutkan tokoh penting dalam perkembangannya secara tepat.</p>
+                    </div>
+                    <div class="bg-slate-900/60 border border-slate-700/60 p-5 rounded-2xl flex items-start space-x-4">
+                        <div class="w-8 h-8 rounded-full bg-amber-500 text-abbasiyah-dark font-bold flex items-center justify-center flex-shrink-0 mt-1">2</div>
+                        <p class="text-sm sm:text-base text-slate-200">Mengidentifikasi minimal tiga bentuk kemajuan peradaban Islam pada masa Daulah Abbasiyah.</p>
+                    </div>
+                    <div class="bg-slate-900/60 border border-slate-700/60 p-5 rounded-2xl flex items-start space-x-4">
+                        <div class="w-8 h-8 rounded-full bg-amber-500 text-abbasiyah-dark font-bold flex items-center justify-center flex-shrink-0 mt-1">3</div>
+                        <p class="text-sm sm:text-base text-slate-200">Menganalisis kontribusi tokoh ilmuwan Muslim dan menghubungkannya dengan perkembangan ilmu pengetahuan masa kini.</p>
+                    </div>
+                    <div class="bg-slate-900/60 border border-slate-700/60 p-5 rounded-2xl flex items-start space-x-4">
+                        <div class="w-8 h-8 rounded-full bg-amber-500 text-abbasiyah-dark font-bold flex items-center justify-center flex-shrink-0 mt-1">4</div>
+                        <p class="text-sm sm:text-base text-slate-200">Menunjukkan sikap kritis, bertanggung jawab, bekerja sama, dan menghargai pendapat orang lain selama pembelajaran.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: MATERI ================= -->
+        <section id="tab-materi" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-slate-800/60 border border-slate-700/80 rounded-3xl p-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Materi Pembelajaran</h2>
+                    <p class="text-sm text-slate-400">Pilih topik materi di bawah untuk mulai membaca</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="switchMateriSub('latar')" id="btn-sub-latar" class="sub-materi-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-amber-500 text-abbasiyah-dark transition-all">Latar Belakang</button>
+                    <button onclick="switchMateriSub('baitul')" id="btn-sub-baitul" class="sub-materi-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all">Baitul Hikmah</button>
+                    <button onclick="switchMateriSub('ilmuwan')" id="btn-sub-ilmuwan" class="sub-materi-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all">Ilmuwan Muslim</button>
+                </div>
+            </div>
+
+            <!-- Sub Materi 1: Latar Belakang -->
+            <div id="sub-materi-latar" class="materi-sub-content space-y-6">
+                <div class="bg-slate-800/60 border border-slate-700/80 rounded-3xl p-6 sm:p-8 space-y-6">
+                    <div class="flex items-center space-x-3 text-amber-400">
+                        <i class="fa-solid fa-landmark text-2xl"></i>
+                        <h3 class="text-xl font-bold text-white">Berdirinya Daulah Abbasiyah</h3>
+                    </div>
+                    <p class="text-base text-slate-300 leading-relaxed">
+                        Daulah Abbasiyah didirikan pada tahun 750 M setelah berhasil menggulingkan kekuasaan Daulah Umayyah. Dinasti ini dinamakan Abbasiyah karena para pendiri dan khalifahnya adalah keturunan <strong class="text-amber-400">Abbas bin Abdul-Muththalib</strong> (paman Nabi Muhammad SAW).
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                        <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-700 space-y-2">
+                            <h4 class="font-bold text-amber-400 flex items-center space-x-2"><i class="fa-solid fa-user-tie"></i><span>Abu Al-Abbas As-Saffah</span></h4>
+                            <p class="text-sm text-slate-300">Khalifah pertama sekaligus pendiri utama Daulah Abbasiyah yang meletakkan dasar-dasar pemerintahan baru.</p>
+                        </div>
+                        <div class="bg-slate-900/80 p-5 rounded-2xl border border-slate-700 space-y-2">
+                            <h4 class="font-bold text-amber-400 flex items-center space-x-2"><i class="fa-solid fa-city"></i><span>Pemindahan Ibu Kota ke Baghdad</span></h4>
+                            <p class="text-sm text-slate-300">Ibu kota dipindahkan dari Damaskus ke <strong class="text-white">Baghdad</strong>, kota berbentuk bundar yang menjadi pusat perdagangan dan peradaban dunia.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub Materi 2: Baitul Hikmah -->
+            <div id="sub-materi-baitul" class="materi-sub-content hidden space-y-6">
+                <div class="bg-slate-800/60 border border-slate-700/80 rounded-3xl p-6 sm:p-8 space-y-6">
+                    <div class="flex items-center space-x-3 text-amber-400">
+                        <i class="fa-solid fa-book-bookmark text-2xl"></i>
+                        <h3 class="text-xl font-bold text-white">Baitul Hikmah: Pusat Peradaban & Ilmu Pengetahuan</h3>
+                    </div>
+                    <p class="text-base text-slate-300 leading-relaxed">
+                        Puncak kejayaan Daulah Abbasiyah (terutama pada masa Khalifah Harun Ar-Rasyid dan putranya Al-Ma'mun) ditandai dengan berdirinya <strong class="text-amber-400">Baitul Hikmah</strong> (Rumah Kebijaksanaan).
+                    </p>
+                    <div class="bg-slate-900/80 p-6 rounded-2xl border border-slate-700 space-y-4">
+                        <h4 class="font-bold text-white">Fungsi Utama Baitul Hikmah:</h4>
+                        <ul class="space-y-3 text-sm sm:text-base text-slate-300">
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-amber-400"></i><span>Pusat perpustakaan terbesar di dunia pada abad pertengahan.</span></li>
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-amber-400"></i><span>Lembaga penerjemahan naskah kuno dari bahasa Yunani, Persia, dan India ke dalam bahasa Arab.</span></li>
+                            <li class="flex items-center space-x-3"><i class="fa-solid fa-check text-amber-400"></i><span>Tempat riset astronomi, kedokteran, matematika, dan filsafat.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub Materi 3: Ilmuwan Muslim -->
+            <div id="sub-materi-ilmuwan" class="materi-sub-content hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-800/60 border border-slate-700/80 rounded-3xl p-6 space-y-4 card-hover">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white">Al-Khawarizmi</h4>
+                        <p class="text-xs font-semibold text-amber-400">Bapak Aljabar & Matematikawan</p>
+                        <p class="text-sm text-slate-300">Penemu angka nol dan pencetus ilmu Aljabar yang menjadi dasar perhitungan komputer modern saat ini.</p>
+                    </div>
+                    <div class="bg-slate-800/60 border border-slate-700/80 rounded-3xl p-6 space-y-4 card-hover">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white">Ibnu Sina (Avicenna)</h4>
+                        <p class="text-xs font-semibold text-amber-400">Tokoh Kedokteran Dunia</p>
+                        <p class="text-sm text-slate-300">Penulis kitab <span class="italic">Al-Qanun fi al-Tibb</span> (Canon of Medicine) yang menjadi rujukan utama ilmu kedokteran di Eropa selama berabad-abad.</p>
+                    </div>
+                    <div class="bg-slate-800/60 border border-slate-700/80 rounded-3xl p-6 space-y-4 card-hover">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-telescope"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white">Al-Battani</h4>
+                        <p class="text-xs font-semibold text-amber-400">Astronom & Matematikawan</p>
+                        <p class="text-sm text-slate-300">Menghitung orbit bumi secara akurat serta menyusun tabel trigonometri yang sangat presisi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: KUIS INTERAKTIF ================= -->
+        <section id="tab-kuis" class="tab-content hidden space-y-6">
+            <div class="bg-slate-800/60 border border-slate-700/80 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-700 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Kuis Interaktif PAI</h2>
+                        <p class="text-sm text-slate-400">Uji sejauh mana pemahamanmu tentang Daulah Abbasiyah</p>
+                    </div>
+                    <div id="quiz-counter" class="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/30">
+                        Soal 1 dari 5
+                    </div>
+                </div>
+
+                <!-- Quiz Container -->
+                <div id="quiz-box" class="space-y-6">
+                    <div id="quiz-question" class="text-lg font-semibold text-slate-100">
+                        Pertanyaan kuis akan dimuat di sini...
+                    </div>
+                    <div id="quiz-options" class="space-y-3">
+                        <!-- Options injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Quiz Result (Hidden initially) -->
+                <div id="quiz-result" class="hidden text-center space-y-6 py-6">
+                    <div class="w-20 h-20 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center mx-auto text-4xl">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">Kuis Selesai!</h3>
+                    <p id="quiz-score-text" class="text-lg text-slate-300">Skor Kamu: 100</p>
+                    <button onclick="restartQuiz()" class="px-6 py-3 rounded-2xl bg-amber-500 text-abbasiyah-dark font-bold hover:bg-amber-400 transition-all">
+                        <i class="fa-solid fa-rotate-right mr-2"></i>Ulangi Kuis
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 5: DRAG AND DROP ================= -->
+        <section id="tab-dragdrop" class="tab-content hidden space-y-6">
+            <div class="bg-slate-800/60 border border-slate-700/80 rounded-3xl p-6 sm:p-8 max-w-4xl mx-auto space-y-6">
+                <div class="flex items-center space-x-3 border-b border-slate-700 pb-4">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-puzzle-piece"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Misi Menjodohkan Ilmuwan Muslim</h2>
+                        <p class="text-sm text-slate-400">Klik Tokoh Ilmuwan di bawah, lalu klik kotak Bidang Keahlian yang sesuai!</p>
+                    </div>
+                </div>
+
+                <div id="dd-message" class="p-3 rounded-xl bg-amber-500/20 text-amber-300 text-sm font-medium text-center border border-amber-500/30">
+                    Petunjuk: Pilih salah satu ilmuwan, lalu pilih bidang keahliannya.
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+                    <!-- Ilmuwan List -->
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-amber-400 text-sm uppercase tracking-wider">Tokoh Ilmuwan</h3>
+                        <div id="scientist-list" class="space-y-3">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                    <!-- Target Drop List -->
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-amber-400 text-sm uppercase tracking-wider">Bidang Keahlian</h3>
+                        <div id="target-list" class="space-y-3">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center pt-4">
+                    <button onclick="resetDragDrop()" class="px-6 py-3 rounded-2xl bg-slate-700 hover:bg-slate-600 text-white font-bold transition-all text-sm">
+                        <i class="fa-solid fa-rotate-right mr-2"></i>Reset Permainan
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 6: TENTANG ================= -->
+        <section id="tab-tentang" class="tab-content hidden space-y-6">
+            <div class="bg-slate-800/60 border border-slate-700/80 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto space-y-6 text-center">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 text-abbasiyah-dark flex items-center justify-center mx-auto text-4xl shadow-lg shadow-amber-500/30">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+                <div class="space-y-2">
+                    <h2 class="text-2xl font-bold text-white">Galuh Airlangga</h2>
+                    <p class="text-amber-400 font-semibold text-sm">Guru Pendidikan Agama Islam (PAI) SMP</p>
+                </div>
+                <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-lg mx-auto">
+                    Media pembelajaran interaktif ini dirancang khusus untuk siswa SMP Kelas 8 (Fase D) guna mengenalkan sejarah emas Daulah Abbasiyah secara modern, menyenangkan, dan mudah dipahami.
+                </p>
+                <div class="pt-4 border-t border-slate-700">
+                    <span class="inline-flex items-center space-x-2 text-xs text-slate-400">
+                        <i class="fa-solid fa-shield-halved text-amber-400"></i><span>© 2026 Media Pembelajaran PAI • All Rights Reserved</span>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        let currentActiveTab = 'home';
+
+        // Tab Switching Function
+        function switchTab(tabId) {
+            const tabs = ['home', 'tujuan', 'materi', 'kuis', 'dragdrop', 'tentang'];
+            tabs.forEach(t => {
+                const el = document.getElementById(`tab-${t}`);
+                if (el) el.classList.add('hidden');
+                const btn = document.getElementById(`nav-${t}`);
+                if (btn) {
+                    btn.classList.remove('bg-amber-500', 'text-abbasiyah-dark', 'shadow-md');
+                    btn.classList.add('text-slate-300', 'hover:text-amber-400', 'hover:bg-slate-800/60');
+                }
+            });
+
+            const activeEl = document.getElementById(`tab-${tabId}`);
+            if (activeEl) activeEl.classList.remove('hidden');
+
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-300', 'hover:text-amber-400', 'hover:bg-slate-800/60');
+                activeBtn.classList.add('bg-amber-500', 'text-abbasiyah-dark', 'shadow-md');
+            }
+
+            currentActiveTab = tabId;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Toggle Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.className = "fa-solid fa-bars text-2xl";
+            } else {
+                icon.className = "fa-solid fa-xmark text-2xl";
+            }
+        }
+
+        // Sub Materi Switching
+        function switchMateriSub(subId) {
+            const subs = ['latar', 'baitul', 'ilmuwan'];
+            subs.forEach(s => {
+                const el = document.getElementById(`sub-materi-${s}`);
+                if (el) el.classList.add('hidden');
+                const btn = document.getElementById(`btn-sub-${s}`);
+                if (btn) {
+                    btn.classList.remove('bg-amber-500', 'text-abbasiyah-dark');
+                    btn.classList.add('bg-slate-700', 'text-slate-300');
+                }
+            });
+
+            const activeSub = document.getElementById(`sub-materi-${subId}`);
+            if (activeSub) activeSub.classList.remove('hidden');
+
+            const activeBtn = document.getElementById(`btn-sub-${subId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-slate-700', 'text-slate-300');
+                activeBtn.classList.add('bg-amber-500', 'text-abbasiyah-dark');
+            }
+        }
+
+        const quizData = [
+            {
+                question: "Daulah Abbasiyah didirikan pada tahun 750 M setelah meruntuhkan kekuasaan...",
+                options: ["Khulafaur Rasyidin", "Daulah Umayyah", "Kesultanan Utsmaniyah", "Kerajaan Saljuk"],
+                answer: 1
+            },
+            {
+                question: "Siapakah pendiri dan khalifah pertama Daulah Abbasiyah?",
+                options: ["Harun Ar-Rasyid", "Al-Ma'mun", "Abu Al-Abbas As-Saffah", "Al-Khawarizmi"],
+                answer: 2
+            },
+            {
+                question: "Kota apakah yang dipilih sebagai ibu kota baru pada masa Daulah Abbasiyah?",
+                options: ["Baghdad", "Damaskus", "Makkah", "Madinah"],
+                answer: 0
+            },
+            {
+                question: "Pusat penerjemahan dan perpustakaan terbesar pada masa kejayaan Abbasiyah dikenal dengan nama...",
+                options: ["Baitul Mal", "Baitul Hikmah", "Darul Arqam", "Masjid Nabawi"],
+                answer: 1
+            },
+            {
+                question: "Ilmuwan muslim penemu ilmu Aljabar dan angka nol pada masa Daulah Abbasiyah adalah...",
+                options: ["Ibnu Sina", "Al-Battani", "Al-Khawarizmi", "Jabir bin Hayyan"],
+                answer: 2
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuiz() {
+            const qBox = document.getElementById('quiz-box');
+            const resBox = document.getElementById('quiz-result');
+            const counter = document.getElementById('quiz-counter');
+
+            if (currentQuestionIndex >= quizData.length) {
+                qBox.classList.add('hidden');
+                resBox.classList.remove('hidden');
+                document.getElementById('quiz-score-text').innerText = `Skor Kamu: ${score} dari ${quizData.length * 20} poin`;
+                return;
+            }
+
+            qBox.classList.remove('hidden');
+            resBox.classList.add('hidden');
+
+            const q = quizData[currentQuestionIndex];
+            counter.innerText = `Soal ${currentQuestionIndex + 1} dari ${quizData.length}`;
+            document.getElementById('quiz-question').innerText = q.question;
+
+            const optContainer = document.getElementById('quiz-options');
+            optContainer.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-2xl bg-slate-900/80 hover:bg-slate-700 border border-slate-700 text-slate-200 font-medium transition-all flex items-center justify-between";
+                btn.innerHTML = `<span>${opt}</span><i class="fa-solid fa-chevron-right text-xs text-amber-400"></i>`;
+                btn.onclick = () => selectQuizOption(idx, q.answer);
+                optContainer.appendChild(btn);
+            });
+        }
+
+        function selectQuizOption(selectedIdx, correctIdx) {
+            if (selectedIdx === correctIdx) {
+                score += 20;
+            }
+            currentQuestionIndex++;
+            loadQuiz();
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            loadQuiz();
+        }
+
+        const matchingData = [
+            { id: 1, scientist: "Al-Khawarizmi", field: "Matematika & Aljabar" },
+            { id: 2, scientist: "Ibnu Sina", field: "Kedokteran" },
+            { id: 3, scientist: "Al-Battani", field: "Astronom / Perbintangan" }
+        ];
+
+        let selectedScientist = null;
+        let matchedCount = 0;
+
+        function initDragDrop() {
+            matchedCount = 0;
+            selectedScientist = null;
+            const sciList = document.getElementById('scientist-list');
+            const targetList = document.getElementById('target-list');
+            sciList.innerHTML = '';
+            targetList.innerHTML = '';
+
+            // Shuffle scientists & fields
+            const shuffledScientists = [...matchingData].sort(() => Math.random() - 0.5);
+            const shuffledFields = [...matchingData].sort(() => Math.random() - 0.5);
+
+            shuffledScientists.forEach(item => {
+                const div = document.createElement('div');
+                div.id = `sci-${item.id}`;
+                div.className = "p-4 rounded-2xl bg-slate-900/80 border border-slate-700 text-slate-200 font-semibold cursor-pointer hover:border-amber-400 transition-all flex items-center justify-between";
+                div.innerHTML = `<span><i class="fa-solid fa-user-graduate mr-2 text-amber-400"></i>${item.scientist}</span><span id="badge-${item.id}" class="text-xs text-slate-400">Pilih</span>`;
+                div.onclick = () => selectScientistCard(item.id);
+                sciList.appendChild(div);
+            });
+
+            shuffledFields.forEach(item => {
+                const div = document.createElement('div');
+                div.id = `field-${item.id}`;
+                div.className = "p-4 rounded-2xl bg-slate-900/80 border border-slate-700 text-slate-300 font-medium cursor-pointer hover:border-blue-400 transition-all flex items-center justify-between";
+                div.innerHTML = `<span><i class="fa-solid fa-book mr-2 text-blue-400"></i>${item.field}</span>`;
+                div.onclick = () => selectFieldCard(item.id);
+                targetList.appendChild(div);
+            });
+
+            document.getElementById('dd-message').innerText = "Petunjuk: Pilih salah satu ilmuwan di kiri, lalu pilih bidang keahlian di kanan.";
+        }
+
+        function selectScientistCard(id) {
+            // Check if already matched
+            if (document.getElementById(`sci-${id}`).classList.contains('opacity-50')) return;
+
+            // Reset selection style
+            matchingData.forEach(m => {
+                const el = document.getElementById(`sci-${m.id}`);
+                if (!el.classList.contains('opacity-50')) {
+                    el.classList.remove('border-amber-400', 'bg-amber-500/10');
+                }
+            });
+
+            selectedScientist = id;
+            const card = document.getElementById(`sci-${id}`);
+            card.classList.add('border-amber-400', 'bg-amber-500/10');
+            document.getElementById('dd-message').innerText = `Ilmuwan dipilih. Sekarang pilih bidang keahlian yang sesuai di sebelah kanan!`;
+        }
+
+        function selectFieldCard(fieldId) {
+            if (!selectedScientist) {
+                document.getElementById('dd-message').innerText = "⚠️ Pilih ilmuwan terlebih dahulu di sebelah kiri!";
+                return;
+            }
+
+            if (selectedScientist === fieldId) {
+                // Correct match!
+                const sciCard = document.getElementById(`sci-${selectedScientist}`);
+                sciCard.classList.remove('border-amber-400', 'bg-amber-500/10');
+                sciCard.classList.add('opacity-50', 'bg-emerald-500/10', 'border-emerald-500');
+                document.getElementById(`badge-${selectedScientist}`).innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> Cocok`;
+
+                const fieldCard = document.getElementById(`field-${fieldId}`);
+                fieldCard.classList.add('opacity-50', 'bg-emerald-500/10', 'border-emerald-500');
+
+                matchedCount++;
+                selectedScientist = null;
+
+                if (matchedCount === matchingData.length) {
+                    document.getElementById('dd-message').innerHTML = "🎉 Luar biasa! Semua ilmuwan berhasil dicocokkan dengan benar!";
+                } else {
+                    document.getElementById('dd-message').innerText = "✅ Benar! Pilih ilmuwan berikutnya.";
+                }
+            } else {
+                document.getElementById('dd-message').innerText = "❌ Kurang tepat, coba pilih bidang keahlian yang lain!";
+            }
+        }
+
+        function resetDragDrop() {
+            initDragDrop();
+        }
+
+        // Initialize on Load
+        window.onload = function() {
+            loadQuiz();
+            initDragDrop();
+        };
+    </script>
+</body>
+</html>
